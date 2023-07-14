@@ -36,7 +36,7 @@ uint8 *find_best_match(uint8 *R, uint8 *Q, int rN, int qN, float *pd, bool L1) {
 	uint8 *pR = 0;
 	float dist = FLT_MAX;
 
-	for (uint8 *p = R; p <= &R[rN - qN]; p++) {
+	for (uint8 *p = R; p < &R[rN - qN - 1]; p++) {
 		float cur;
 		L1 ? cur = L1_dist(p, Q, qN) : cur = L2_dist(p, Q, qN);
 		if (cur < dist) {
