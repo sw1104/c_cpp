@@ -79,6 +79,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="bmp.h" />
+    <ClInclude Include="list.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
