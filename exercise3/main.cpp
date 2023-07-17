@@ -12,12 +12,12 @@ void main() {
 	uint8 a = at(&bin, 16, 8);
 	printf("%d", a);
 
-	fillRect(&bin, 1, 1, 2, 2, 1);
+/*	fillRect(&bin, 1, 1, 2, 2, 1);*/
 
 // 	drawRect(&bin, 8, 2, 18, 3, 1);
-// 
-// 	drawLine(&bin, 1, 1, 5, 5, 7);
-// 
+
+	drawLine(&bin, 1, 1, 5, 5, 7);
+
 // 	flip_vertical(&bin);
 // 	flip_horizontal(&bin);
 

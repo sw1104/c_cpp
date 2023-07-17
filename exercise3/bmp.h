@@ -33,6 +33,8 @@ int _end(int point, int size, int limit) {
 
 
 void fillRect(BinImg* bin, int x, int y, int w, int h, uint8 val) {
+	uint8* p = bin->bmp;
+
 	int startX = _start(x);
 	int startY = _start(y);
 	int endX = _end(x, w + 1, bin->W);
@@ -40,12 +42,14 @@ void fillRect(BinImg* bin, int x, int y, int w, int h, uint8 val) {
 
 	for (int j = startY; j < endY; j++) {
 		for (int i = startX; i < endX; i++) {
-			bin->bmp[j * bin->W + i] = val;
+			p[j * bin->W + i] = val;
 		}
 	}
 }
 
 void drawRect(BinImg* bin, int x, int y, int w, int h, uint8 val) {
+	uint8* p = bin->bmp;
+
 	int startX = _start(x);
 	int startY = _start(y);
 	int endX = _end(x, w + 1, bin->W);
@@ -53,40 +57,50 @@ void drawRect(BinImg* bin, int x, int y, int w, int h, uint8 val) {
 
 	for (int i = startX; i < endX; i++) {
 		if (startY >= 0 && startY < bin->H)
-			bin->bmp[startY * bin->W + i] = val;
+			p[startY * bin->W + i] = val;
 		if (endY >= 0 && endY < bin->H)
-			bin->bmp[endY * bin->W + i] = val;
+			p[endY * bin->W + i] = val;
 	}
 
 	for (int j = startY + 1; j < endY; j++) {
 		if (startX >= 0 && startX < bin->W)
-			bin->bmp[j * bin->W + startX] = val;
+			p[j * bin->W + startX] = val;
 		if (endX >= 0 && endX < bin->W)
-			bin->bmp[j * bin->W + endX] = val;
+			p[j * bin->W + endX] = val;
 	}
 }
 
+// void drawLine(BinImg* bin, int x0, int y0, int x1, int y1, uint8 val) {
+// 	uint8* p = bin->bmp;
+// 
+// 	int dx = abs(x1 - x0);
+// 	int dy = abs(y1 - y0);
+// 	int sx = x0 < x1 ? 1 : -1;
+// 	int sy = y0 < y1 ? 1 : -1;
+// 	int e = (dx > dy ? dx : -dy) / 2;
+// 
+// 
+// 	for (int t; x0 != x1 + 1 || y0 != y1 + 1;) {
+// 		p[y0 * bin->W + x0] = val;
+// 		t = e;
+// 		if (t >= -dx) {
+// 			e -= dy;
+// 			x0 += sx;
+// 		}
+// 		if (t <= dy) {
+// 			e += dx;
+// 			y0 += sy;
+// 		}
+// 	}
+// }
+
 void drawLine(BinImg* bin, int x0, int y0, int x1, int y1, uint8 val) {
 	uint8* p = bin->bmp;
+	int s = (y1 - y0) / (x1 - x0);
 
-	int dx = abs(x1 - x0);
-	int dy = abs(y1 - y0);
-	int sx = x0 < x1 ? 1 : -1;
-	int sy = y0 < y1 ? 1 : -1;
-	int e = (dx > dy ? dx : -dy) / 2;
-
-
-	for (int e2; x0 != x1 + 1 || y0 != y1 + 1;) {
-		p[y0 * bin->W + x0] = val;
-		e2 = e;
-		if (e2 >= -dx) {
-			e -= dy;
-			x0 += sx;
-		}
-		if (e2 <= dy) {
-			e += dx;
-			y0 += sy;
-		}
+	for (int x = x0; x < x1 + 1; x++) {
+		int y = y0 + (s * (x - x0));
+		p[y * bin->W + x] = val;
 	}
 }
 
