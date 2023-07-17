@@ -22,6 +22,7 @@ void list_view(List* list) {
 	puts("");
 }
 
+
 bool list_isEmpty(List* list) {
 	return list->header == 0;
 }
@@ -46,7 +47,7 @@ void list_pop_back(List* list) {
 		return;
 
 	elem* cur;
-	for (cur = list->header; cur->next && cur->next->next; cur = cur->next);
+	for (cur = list->header; cur->next->next; cur = cur->next);
 
 	if (cur->next != 0) {
 		delete cur->next;
@@ -78,6 +79,7 @@ void list_push_at(List* list, uint8 val, int pos) {
 	}
 }
 
+
 void list_pop_at(List* list, int pos) {
 	if(pos < 0 || list_isEmpty(list))
 		return;
@@ -94,8 +96,6 @@ void list_pop_at(List* list, int pos) {
 		cur->next = t->next;
 		delete t;
 	}
-
-
 }
 
 uint8 list_min(List* list) {

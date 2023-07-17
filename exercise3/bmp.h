@@ -72,35 +72,34 @@ void drawRect(BinImg* bin, int x, int y, int w, int h, uint8 val) {
 
 // void drawLine(BinImg* bin, int x0, int y0, int x1, int y1, uint8 val) {
 // 	uint8* p = bin->bmp;
+// 	int s = (y1 - y0) / (x1 - x0);
 // 
-// 	int dx = abs(x1 - x0);
-// 	int dy = abs(y1 - y0);
-// 	int sx = x0 < x1 ? 1 : -1;
-// 	int sy = y0 < y1 ? 1 : -1;
-// 	int e = (dx > dy ? dx : -dy) / 2;
-// 
-// 
-// 	for (int t; x0 != x1 + 1 || y0 != y1 + 1;) {
-// 		p[y0 * bin->W + x0] = val;
-// 		t = e;
-// 		if (t >= -dx) {
-// 			e -= dy;
-// 			x0 += sx;
-// 		}
-// 		if (t <= dy) {
-// 			e += dx;
-// 			y0 += sy;
-// 		}
+// 	for (int x = x0; x < x1 + 1; x++) {
+// 		int y = y0 + (s * (x - x0));
+// 		p[y * bin->W + x] = val;
 // 	}
 // }
 
 void drawLine(BinImg* bin, int x0, int y0, int x1, int y1, uint8 val) {
 	uint8* p = bin->bmp;
-	int s = (y1 - y0) / (x1 - x0);
 
-	for (int x = x0; x < x1 + 1; x++) {
-		int y = y0 + (s * (x - x0));
-		p[y * bin->W + x] = val;
+	int dx = abs(x1 - x0);
+	int dy = abs(y1 - y0);
+	int sx = x0 < x1 ? 1 : -1;
+	int sy = y0 < y1 ? 1 : -1;
+	int e = (dx > dy ? dx : -dy) / 2;
+
+	for (int t; x0 != x1 + 1 || y0 != y1 + 1;) {
+		p[y0 * bin->W + x0] = val;
+		t = e;
+		if (t >= -dx) {
+			e -= dy;
+			x0 += sx;
+		}
+		if (t <= dy) {
+			e += dx;
+			y0 += sy;
+		}
 	}
 }
 
@@ -119,7 +118,7 @@ void flip_vertical(BinImg* bin) {
 
 void flip_horizontal(BinImg* bin) {
 	uint8* top = bin->bmp;
-	uint8* bottom = bin->bmp + (bin->H - 1) * bin->W;
+	uint8* bottom = bin->bmp + bin->H * bin->W;
 
 	for (; top < bottom; top += bin->W, bottom -= bin->W) {
 		for (int i = 0; i < bin->W; i++) {
@@ -130,45 +129,16 @@ void flip_horizontal(BinImg* bin) {
 	}
 }
 
-void _newSize(int W, int H, int n, int* newW, int* newH) {
-	if (n % 2 == 0) {
-		*newW = H;
-		*newH = W;
-	}
-	else {
-		*newW = W;
-		*newH = H;
-	}
-}
+void rotate90(BinImg* bin) {
+	uint8* p = new uint8[bin->H * bin->W];
 
-void _rotate(int* x, int* y, int n, int w, int h) {
-	if (n == 1) {
-		int t = *x;
-		*x = *y;
-		*y = w - 1 - t;
-	}
-	else if (n == 2) {
-		*x = w - 1 - *x;
-		*y = h - 1 - *y;
-	}
-	else {
-		int t = *x;
-		*x = h - 1 - *y;
-		*y = t;
-	}
-}
+	int newW = bin->H;
+	int newH = bin->W;
 
-void rotate90(BinImg* bin, int n) {
-	uint8* p = new uint8[bin->W * bin->H];
-
-	int newW, newH;
-	_newSize(bin->W, bin->H, n, &newW, &newH);
-
-	for (int y = 0; y < bin->H; y++) {
-		for (int x = 0; x < bin->W; x++) {
-			int newX = x;
-			int newY = y;
-			_rotate(&newX, &newY, n, bin->W, bin->H);
+	for (int y = 0; y < bin->H + 1; y++) {
+		for (int x = 0; x < bin->W + 1; x++) {
+			int newX = y;
+			int newY = bin->W - x;
 
 			p[newY * newW + newX] = bin->bmp[y * bin->W + x];
 		}
@@ -200,9 +170,10 @@ void behalf(BinImg* bin) {
 }
 
 void draw(BinImg* bin) {
-	for (int y = 0; y < bin->H; y++) {
-		for (int x = 0; x < bin->W; x++) {
-			printf("%c ", bin->bmp[y * bin->W + x] ? '*' : ' ');
+	uint8* p = bin->bmp;
+	for (int y = 0; y < bin->H + 1; y++) {
+		for (int x = 0; x < bin->W + 1; x++) {
+			printf("%c ", p[y * bin->W + x] == 1 ? '*' : ' ');
 		}
 		printf("\n");
 	}

@@ -7,21 +7,54 @@ void main() {
 
 	bim_init(&bin);
 
-	bim_alloc(&bin, 16, 8);
+	bim_alloc(&bin, 16, 12);
 
-	uint8 a = at(&bin, 16, 8);
-	printf("%d", a);
+	uint8 a = at(&bin, 16, 12);
+/*	printf("%d", a);*/
 
 /*	fillRect(&bin, 1, 1, 2, 2, 1);*/
 
 // 	drawRect(&bin, 8, 2, 18, 3, 1);
 
-	drawLine(&bin, 1, 1, 5, 5, 7);
+	drawLine(&bin, 4, 4, 6, 7, 1);
+	printf("0------------------------");
+	draw(&bin);
 
+	flip_vertical(&bin);
+
+	printf("0------------------------");
+	draw(&bin);
+
+	flip_horizontal(&bin);
+
+	printf("0------------------------");
+	draw(&bin);
 // 	flip_vertical(&bin);
 // 	flip_horizontal(&bin);
 
-	free(&bin);
+// 	rotate90(&bin, 1);
+// 
+// 	printf("1------------------------");
+// 
+// 	draw(&bin);
+
+
+// 	rotate90(&bin, 2);
+// 
+// 	printf("2------------------------");
+// 	draw(&bin);
+// 
+// 	rotate90(&bin, 3);
+// 
+// 	printf("3------------------------");
+// 	draw(&bin);
+// 
+// 	rotate90(&bin, 4);
+// 
+// 
+// 	printf("------------------------");
+
+/*	free(&bin);*/
 
 
 // 	List list;
