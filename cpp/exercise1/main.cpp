@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include "str.h"
 
-void main()
-{
+void main() {
 	Str str = Str();
 	char *a = "hello";
 	printf("%d\n", str.length(a));

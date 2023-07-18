@@ -31,6 +31,8 @@ public:
 		return header == 0;
 	}
 
+	bool isEmpty() {return header == 0;}
+
 	void push_back(int val) {
 		Elem* p = new Elem;
 		p->v = val;
@@ -51,40 +53,20 @@ public:
 			return;
 
 		if(header->next == 0){
-			
-		}
-		
-
-
-
-
-
-
-
-
-
-
-
-	void pop_back() {
-		if (isEmpty())
-			return;
-
-		if (header->next == nullptr) {
 			delete header;
-			header = nullptr;
-		}
-		else {
-			Elem* cur = header;
-			while (cur->next->next) {
+			header = 0;
+		} else {
+			Elem* cur=header;
+			while(cur->next && cur->next->next) {
 				cur = cur->next;
 			}
 			delete cur->next;
-			cur->next = nullptr;
+			cur->next = 0;
 		}
 	}
 
-	void push_at() {
-
+	void push_at(int val) {
+		
 	}
 
 	void pop_at() {
