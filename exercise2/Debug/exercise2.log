@@ -1,4 +1,0 @@
-﻿  main.cpp
-c:\users\i\desktop\study\c\exercise2\star.h(13): warning C4005: 'w' : 매크로 재정의
-          c:\users\i\desktop\study\c\exercise2\star.h(3) : 'w'의 이전 정의를 참조하십시오.
-  exercise2.vcxproj -> C:\Users\i\Desktop\study\c\exercise2\Debug\exercise2.exe
