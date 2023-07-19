@@ -16,19 +16,11 @@ void main() {
 
 // 	drawRect(&bin, 8, 2, 18, 3, 1);
 
-	drawLine(&bin, 4, 4, 6, 7, 1);
-	printf("0------------------------");
+	drawCircle(&bin, 3, 5, 7, 1);
+
 	draw(&bin);
 
-	flip_vertical(&bin);
 
-	printf("0------------------------");
-	draw(&bin);
-
-	flip_horizontal(&bin);
-
-	printf("0------------------------");
-	draw(&bin);
 // 	flip_vertical(&bin);
 // 	flip_horizontal(&bin);
 
