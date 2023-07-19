@@ -1,87 +1,156 @@
 #include <iostream>
 
-typedef unsigned char uint8;
+/*typedef unsigned char uint8;*/
 
 class List {
 	struct Elem {
-		uint8 v;
+		char val;
 		Elem* next;
 	};
 
 	Elem* header;
+	friend class StrList;
+	friend class FileList;
 
 public:
-	List() : header(nullptr) {}
-	~List() {
-		Elem* t = header;
-		header = header->next;
-		delete t;
+	List() {
+		header = 0;
 	}
 
-	void print() {
+	~List() {
+		while (header) {
+			Elem* t = header;
+			header = header->next;
+			delete t;
+		}
+	}
+
+	void view() {
 		Elem* p = header;
-		while (p) {
-			printf("%d", p->v);
-			p = p->next;
+		for (;; p = p->next) {
+			printf("%c ", p->val);
+			if (p->next == 0)
+				break;
 		}
 		puts("");
 	}
 
-	bool isEmpty() {
+	bool isEmpty() const {
 		return header == 0;
 	}
 
-	bool isEmpty() {return header == 0;}
-
-	void push_back(int val) {
+	void push_back(char val) {
 		Elem* p = new Elem;
-		p->v = val;
+		p->val = val;
 		p->next = 0;
-
-		if (isEmpty())
+		
+		if (isEmpty()) {
 			header = p;
+		}
 		else {
 			Elem* cur = header;
-			while (cur->next)
-				cur = cur->next;
+			for (cur = header; cur->next; cur = cur->next);
 			cur->next = p;
 		}
 	}
 
 	void pop_back() {
-		if(isEmpty())
+		if (isEmpty())
 			return;
 
-		if(header->next == 0){
+		if (header->next == 0) {
 			delete header;
 			header = 0;
-		} else {
-			Elem* cur=header;
-			while(cur->next && cur->next->next) {
-				cur = cur->next;
-			}
+		}
+		else {
+			Elem* cur;
+			for (cur = header; cur->next->next; cur = cur->next);
 			delete cur->next;
 			cur->next = 0;
 		}
 	}
 
-	void push_at(int val) {
-		
+	void push_at(char val, int pos) {
+		if (pos < 0)
+			return;
+
+		Elem* p = new Elem;
+		p->val = val;
+
+		if (isEmpty() || pos == 0) {
+			p->next = header;
+			header = p;
+		}
+		else {
+			Elem* cur;
+			int i = 1;
+			for (cur = header, i = 1; i < pos && cur->next; i++, cur = cur->next);
+			p->next = cur->next;
+			cur->next = p;
+		}
 	}
 
-	void pop_at() {
+	void pop_at(int pos) {
+		if (pos < 0 || isEmpty())
+			return;
 
+		if (pos == 0) {
+			Elem* t = header;
+			header = t->next;
+			delete t;
+		}
+		else {
+			Elem* cur;
+			int i = 1;
+			for (cur = header, i = 1; i < pos && cur->next; i++, cur = cur->next);
+			Elem* t = cur->next;
+			cur->next = t->next;
+			delete t;
+		}
 	}
 
-	uint8 min() {
+	char min() {
+		if (isEmpty())
+			return 0;
 
-	}
+		int min = 255;
+		for (Elem* cur = header; cur; cur = cur->next) {
+			if (cur->val < min)
+				min = cur->val;
+		}
 
-	uint8 max() {
-
+		return min;
 	}
 
 	float avg() {
+		if (isEmpty())
+			return 0.0;
 
+		int s = 0;
+		int c = 0;
+		for (Elem* cur = header; cur; cur = cur->next) {
+			s += cur->val;
+			c++;
+		}
+
+		return (float)s / c;
+	}
+
+	char at(int i) {
+		if (i >= 0 && i <= size()) {
+			Elem* p = header;
+			for (int j = 0; j < i; j++)
+				p = p->next;
+			return p->val;
+		}
+		return 0;
+	}
+
+	int size() {
+		Elem* p = header;
+		int n = 0;
+		for(;p->next; p = p->next)
+			n++;
+		return n;
 	}
 };

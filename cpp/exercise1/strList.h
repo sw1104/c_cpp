@@ -1,27 +1,35 @@
-class StrList{
+#include <iostream>
+#include "list.h"
+
+class StrList {
+	List list;
+
 public:
-	void push_front(char* str, char* v) {
-
+	void print() {
+		list.view();
 	}
 
-	void pop_front(char* str) {
-
+	void push_front(char* str) {
+		list.push_at(*str, 0);
 	}
 
-	void push_back(char* str, char* v) {
-
+	void pop_front() {
+		list.pop_at(0);
 	}
 
-	void pop_back(char* str) {
-
+	void push_back(char* str) {
+		list.push_back(*str);
 	}
 
-	char* at(char* str, int i) {
-
+	void pop_back() {
+		list.pop_back();
 	}
 
-	int size(char* str) {
-
+	char at(int i) {
+		return list.at(i);
 	}
 
+	int size() {
+		return list.size();
+	}
 };
