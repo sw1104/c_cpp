@@ -47,25 +47,6 @@ void fillRect(BinImg* bin, int x, int y, int w, int h, uint8 val) {
 	}
 }
 
-void drawCircle(BinImg* bin, int x, int y, int r, uint8 val) {
-	uint8* p = bin->bmp;
-	int startX = _start(x-r);
-	int startY = _start(y-r);
-	int endX = _end(x+r+1, 0, bin->W);
-	int endY = _end(y+r+1, 0, bin->H);
-	int rr = r*r;
-
-	for(int i = startY; i < endY; i++) {
-		for(int j = startX; j < endX; j++){
-			int c =  (x - j) *  (x - j) + (y - i) * (y - i);
-			if(r >= c) {
-				p[j*bin->W + i] = val;
-			}
-		}
-	}
-
-}
-
 void drawRect(BinImg* bin, int x, int y, int w, int h, uint8 val) {
 	uint8* p = bin->bmp;
 
@@ -87,6 +68,45 @@ void drawRect(BinImg* bin, int x, int y, int w, int h, uint8 val) {
 		if (endX >= 0 && endX < bin->W)
 			p[j * bin->W + endX] = val;
 	}
+}
+
+
+void fillCircle(BinImg* bin, int x, int y, int r, uint8 val) {
+	uint8* p = bin->bmp;
+	int startX = _start(x-r);
+	int startY = _start(y-r);
+	int endX = _end(x+r+1, 0, bin->W);
+	int endY = _end(y+r+1, 0, bin->H);
+	int rr = r*r;
+
+	for(int i = startY; i < endY; i++) {
+		for(int j = startX; j < endX; j++){
+			int c =  (x - j) *  (x - j) + (y - i) * (y - i);
+			if(r >= c) {
+				p[j*bin->W + i] = val;
+			}
+		}
+	}
+
+}
+
+void drawCircle(BinImg* bin, int x, int y, int r, uint8 val) {
+	uint8* p = bin->bmp;
+	int startX = _start(x-r);
+	int startY = _start(y-r);
+	int endX = _end(x+r+1, 0, bin->W);
+	int endY = _end(y+r+1, 0, bin->H);
+	int rr = r*r;
+
+	for (int i = startY; i < endY; i++) {
+		for (int j = startX; j < endX; j++){
+			int c =  (x - j) *  (x - j) + (y - i) * (y - i);
+			if (r = c) {
+				p[j*bin->W + i] = val;
+			}
+		}
+	}
+
 }
 
 // void drawLine(BinImg* bin, int x0, int y0, int x1, int y1, uint8 val) {
