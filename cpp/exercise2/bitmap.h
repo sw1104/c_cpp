@@ -49,4 +49,7 @@ public:
 	
 	}
 
+	Bitmap* findBestMatch(Bitmap* q, Bitmap* r) {
+
+	}
 };
