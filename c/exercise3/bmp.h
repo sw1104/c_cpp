@@ -57,9 +57,7 @@ void drawCircle(BinImg* bin, int x, int y, int r, uint8 val) {
 
 	for(int i = startY; i < endY; i++) {
 		for(int j = startX; j < endX; j++){
-			int dx = x - j;
-			int dy = y - i;
-			int c = dx*dx + dy*dy;
+			int c =  (x - j) *  (x - j) + (y - i) * (y - i);
 			if(r >= c) {
 				p[j*bin->W + i] = val;
 			}

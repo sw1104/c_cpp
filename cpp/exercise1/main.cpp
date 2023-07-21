@@ -27,6 +27,8 @@ void main() {
 
 	file.push_back("world");
 	file.push_front("hello ");
+	file.push_front("what ");
+	file.push_front("totototo ");
 // 	file.print();
 	file.save("a.txt");	
 }

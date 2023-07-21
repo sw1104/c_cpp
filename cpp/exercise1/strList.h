@@ -6,7 +6,7 @@ class StrList {
 
 public:
 	void print() {
-		list.view();
+		list.print();
 	}
 
 	void push_front(char* str) {

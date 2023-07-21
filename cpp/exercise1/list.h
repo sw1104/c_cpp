@@ -18,14 +18,14 @@ public:
 	}
 
 	~List() {
-		while (header) {
-			Elem* t = header;
+		while(header) {
+			Elem* t= header;
 			header = header->next;
 			delete t;
 		}
 	}
 
-	void view() {
+	void print() {
 		Elem* p = header;
 		for (;; p = p->next) {
 			printf("%c ", p->val);
