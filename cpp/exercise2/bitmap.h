@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "file.h"
 #include "bmp_err.h"
 
@@ -16,9 +17,9 @@ public:
 	}
 
 	~Bitmap() {
-		delete _bmp;
-		W = 0;
-		H = 0;
+// 		delete _bmp;
+// 		W = 0;
+// 		H = 0;
 	}
 
 	bool load(char* path) {
@@ -36,7 +37,7 @@ public:
 
 		_bmp = new uint8[size + 54];
 
-		file.dup((char*)header, (char*)_bmp);
+		file.hd_dup((char*)header, (char*)_bmp);
 
 		file.read((char*)&_bmp[54], size);
 		file.close();
@@ -44,7 +45,7 @@ public:
 	}
 
 	bool save(char* path){ 
-		file.open(path, "wb");
+		file.open(path, "w+b");
 		int size = W * H * 3;
 		file.write((char*)_bmp, size);
 		file.close();
@@ -61,8 +62,8 @@ public:
 
 	void flip_vertical(uint8* q) {
 		for (int y = 0; y < H; y++) {
-			uint8* left = &_bmp[54] + y * W;
-			uint8* right = _bmp + (y + 1) * W - 1;
+			uint8* left = q + y * W * 3;
+			uint8* right = q + (y + 1) * W * 3 - 4;
 
 			for (; left < right; left++, right--) {
 				uint8 t = *left;
@@ -72,9 +73,10 @@ public:
 		}
 	}
 
+
 	void flip_horizontal(uint8* q) {
-		uint8* top = _bmp;
-		uint8* bottom = _bmp + H * W;
+		uint8* top = q;
+		uint8* bottom = q + W * H;
 
 		for (; top < bottom; top += W, bottom -= W) {
 			for (int i = 0; i < W; i++) {
@@ -86,14 +88,18 @@ public:
 	}
 
 	void getFlip(bool vertical=true) {
+		int size = W*H*3;
+		uint8* p = new uint8[size];
+		memcpy(p, &_bmp[54], size);
 		if (vertical) {
-			uint8* p = 
-			flip_vertical(_bmp);
+			flip_vertical(p);
+			memcpy(&_bmp[54], p, size);
 			save("vertical.BMP");
-
+		} else {
+			flip_horizontal(p);
+			memcpy(&_bmp[54], p, size);
+			save("horizontal.BMP");
 		}
-		flip_horizontal(_bmp);
-		save("horizontal.BMP");
 	}
 
 	Bitmap* getRotate90(int nth) {

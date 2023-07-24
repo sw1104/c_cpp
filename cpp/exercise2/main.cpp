@@ -10,9 +10,9 @@ void main() {
 // 	comb.all(A);
 
 	Bitmap bin;
-	bin.load("img3.BMP");
+	bin.load("img.BMP");
 	bin.getFlip();
-// 	bin.save("test.BMP");
+ 	bin.save("v.BMP");
 // 	bin.load("test.BMP");
 }
 

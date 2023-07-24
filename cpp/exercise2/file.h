@@ -21,7 +21,13 @@ public:
 	}
 	int size() {}
 
-	static bool dup(char* src, char* dst) {
+	static bool p_dup(char* src, char* dst, int n) {
+		for (int i = 0; i < n; i++)
+			*dst++ = src[i];
+		return true;
+	}
+
+	static bool hd_dup(char* src, char* dst) {
 		for (int i = 0; i < 54; i++)
 			*dst++ = src[i];
 		return true;
