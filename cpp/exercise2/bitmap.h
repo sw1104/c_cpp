@@ -54,7 +54,7 @@ public:
 	}
 
 	uint8* ptr(int x, int y) {
-		return &_bmp[54 + (y * W + x) * 3];
+		return &_bmp[54] + (y * W + x) * 3;
 	}
 
 	void flip_vertical(uint8* q) {
@@ -117,9 +117,9 @@ public:
 		int size = r->W * r->H * 3;
 		r->_bmp = new uint8[size + 54];
 
-// 		memcpy(r->_bmp, _bmp, 54);
-// 		r->_bmp[18] = r->W;
-// 		r->_bmp[22] = r->H;
+		memcpy(r->_bmp, _bmp, 54);
+		r->_bmp[18] = r->W;
+		r->_bmp[22] = r->H;
 
 		for (int y = 0; y < r->H; y++) {
 			for (int x = 0; x < r->W; x++) {
@@ -129,9 +129,6 @@ public:
 			}
 		}
 		
-		memcpy(r->_bmp, _bmp, 54);
-		r->_bmp[18] = r->W;
-		r->_bmp[22] = r->H;
 		return r;
 	}
 
@@ -158,23 +155,26 @@ public:
 			}
 		}
 	}
-
 	Bitmap* getCrop(int x, int y, int w, int h) {
-		int size = w * h * 3;
 		Bitmap* c = new Bitmap();
-		c->_bmp = new uint8[size+54];
-		memset(c->_bmp, 0, size+54);
+		c->W = w;
+		c->H = h;
+
+		int size = w * h * 3;
+		c->_bmp = new uint8[size + 54];
+
 		memcpy(c->_bmp, _bmp, 54);
 		c->_bmp[18] = w;
 		c->_bmp[22] = h;
 
 		for (int j = 0; j < y + h; j++) {
-			for (int i = 0; i < x + w * 3; i++) {
-				uint8* src = &_bmp[54] + (j * w + i) * 3;
-				uint8* dst = &c->_bmp[54] + (i * w + c->W - 1 - j) * 3;
+			for (int i = 0; i < x + w; i++) {
+				uint8* src = ptr((x + i), (y + j));
+				uint8* dst = ptr(i, j);
 				memcpy(dst, src, 3);
 			}
-		}		
+		}
+
 		return c;
 	}
 

@@ -26,7 +26,7 @@ void main() {
 // 	bmp.drawRect(1, 1,30, 30, 255, 0 ,0);
 // 
 
-	Bitmap* c = bmp.getCrop(1,1,8,8);
+	Bitmap* c = bmp.getCrop(3,3,8,10);
 
  	c->save("cccc.BMP");
 }
