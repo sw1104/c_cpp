@@ -2,31 +2,31 @@
 #include <stdio.h>
 #include "combination.h"
 #include "bitmap.h"
+#include "timer.h"
 
 void main() {
-// 	int A[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
-// 
-// 	Combination comb;
-// 	comb.all(A);
-
 	Bitmap bmp;
-	bmp.load("XING_B24.BMP");
-// 	bmp.bright(0.7f);
-// 	bmp.save("br7.BMP");
-// 	bmp.getFlip();
-// 	bmp.bright(0.4f);
-// 	bmp.save("br4.BMP");
-// 	bmp.getFlip(false);
-// 	bmp.bright(0.1f);
-// 	bmp.save("br1.BMP");
+	bmp.load("img/XING_B24.BMP");
+
+// 	bmp.bright(0.5f);
+// 	bmp.save("img/br.BMP");
 
 // 	Bitmap* r = bmp.getRotate90(1);
-// 	r->save("r.BMP");
-// 	bmp.bright(1.0f);
-// 	bmp.drawRect(1, 1,30, 30, 255, 0 ,0);
-// 
+// 	r->save("img/r.BMP");
 
-	Bitmap* c = bmp.getCrop(3,3,8,10);
 
- 	c->save("cccc.BMP");
+
+// 	Bitmap* f = bmp.getFlip(0);
+// 	f->save("img/hhhh.BMP");
+
+	Bitmap* c = bmp.getCrop(200,1,28,77);
+	c->save("img/crop.BMP");
+	bmp.drawRect(200, 1,28,77, 0, 0 ,0);
+	bmp.save("img/rect.BMP");
+
+	Timer t;
+	Bitmap* f = bmp.findBestMatch(&bmp, c);
+	printf("%dms\n", t.off());
+	f->save("img/find.BMP");
+	
 }
