@@ -167,6 +167,7 @@ public:
 		return c;
 	}
 
+
 	Bitmap* findBestMatch(Bitmap* q, Bitmap* r) {
 		int maxInt = 2100000000;
 		int x0;
